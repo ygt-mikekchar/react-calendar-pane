@@ -11,11 +11,19 @@ var _libCalendarJs = require('../lib/Calendar.js');
 
 var _libCalendarJs2 = _interopRequireDefault(_libCalendarJs);
 
+var _moment = require('moment');
+
+var _moment2 = _interopRequireDefault(_moment);
+
 var Example = _react2['default'].createClass({
     displayName: 'Example',
 
     onSelect: function onSelect(date) {
-        console.info('onSelect', date);
+        if ((0, _moment2['default'])().isSame(date, 'month')) {
+            console.info('onSelect', date);
+        } else {
+            return false;
+        }
     },
 
     render: function render() {
@@ -33,7 +41,7 @@ var Example = _react2['default'].createClass({
 
 _react2['default'].render(_react2['default'].createElement(Example, null), document.body);
 
-},{"../lib/Calendar.js":2,"react":162}],2:[function(require,module,exports){
+},{"../lib/Calendar.js":2,"moment":7,"react":162}],2:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -99,10 +107,11 @@ var Calendar = _react2['default'].createClass({
 
     handleClick: function handleClick(event) {
         var date = event.target.getAttribute('data-date');
-        this.props.onSelect(date);
-        this.setState({
-            date: (0, _moment2['default'])(date)
-        });
+        if (this.props.onSelect(date) !== false) {
+            this.setState({
+                date: (0, _moment2['default'])(date)
+            });
+        }
     },
 
     previous: function previous() {
